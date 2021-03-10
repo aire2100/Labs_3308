@@ -1,0 +1,71 @@
+Lab #6 Take Home
+Your name: Aidan Reese
+
+
+---------------------------------------- Question 1 Query ---------------------------------------- 
+
+SELECT ship_city, count(*) AS Popular_City FROM orders GROUP BY ship_city ORDER BY Popular_City DESC LIMIT 1;
+
+---------------------------------------- Question 1 Results ---------------------------------------- 					
+   ship_city    | popular_city 
+----------------+--------------
+ Rio de Janeiro |           34
+(1 row)
+
+---------------------------------------- Question 2 Query ---------------------------------------- 
+
+CREATE VIEW numProducts AS
+SELECT count(distinct order_details.product_id) as numProducts, orders.order_id as orderID
+FROM orders, order_details
+WHERE order_details.order_id = orders.order_id and orders.ship_city = 'Graz'
+GROUP BY orders.order_id;
+
+SELECT order_details.order_id, products.product_name, numProducts.numProducts
+FROM products, order_details
+INNER JOIN numProducts ON numProducts.orderID = order_details.order_id
+WHERE products.product_id = order_details.product_id and numProducts.numProducts < 3;
+
+---------------------------------------- Question 2 Results ---------------------------------------- 					
+
+ order_id |         product_name          | numproducts 
+----------+-------------------------------+-------------
+    10402 | Tunnbröd                      |           2
+    10402 | Vegie-spread                  |           2
+    10403 | Pavlova                       |           2
+    10403 | Chocolade                     |           2
+    10571 | Tofu                          |           2
+    10571 | Singaporean Hokkien Fried Mee |           2
+    10667 | Gudbrandsdalsost              |           2
+    10667 | Flotemysost                   |           2
+(8 rows)	
+
+---------------------------------------- Question 3 Query ---------------------------------------- 
+
+CREATE VIEW CompanyOrders AS
+SELECT count(distinct order_details.order_id) as CompanyOrders, customers.company_name as Company
+FROM order_details, customers
+GROUP BY customers.company_name;
+
+
+SELECT CompanyOrders.CompanyOrders
+FROM CompanyOrders
+WHERE CompanyOrders.CompanyOrders > AVG(CompanyOrders.CompanyOrders);
+
+---------------------------------------- Question 3 Results ---------------------------------------- 					
+
+										
+
+---------------------------------------- Question 4 Query ---------------------------------------- 
+
+
+---------------------------------------- Question 4 Results ---------------------------------------- 					
+
+										
+
+---------------------------------------- Question 5 Query ---------------------------------------- 
+
+										
+
+---------------------------------------- Question 5 Results ---------------------------------------- 					
+
+

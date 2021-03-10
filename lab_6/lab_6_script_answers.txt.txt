@@ -1,0 +1,42 @@
+3.1) CREATE TABLE competing_univ(
+	id SERIAL PRIMARY KEY,
+	uni_name VARCHAR(40),
+	date_est DATE,
+	adress TEXT,
+	student_pop INTEGER,
+	accept_rate DECIMAL(2,2)
+  );
+
+3.2) INSERT INTO competing_univ(uni_name, date_est, student_pop, accept_rate)
+	VALUES ('CU Boulder', '1876-04-1', '1100 28th St, Boulder, CO 80303', 35000, .80);
+
+
+4.1) SELECT name, major from football_players;
+
+4.2) SELECT name, rushing_yards from football_players where rushing_yards > 70;
+
+4.3) SELECT visitor_name, home_score, visitor_score, game_date, players from football_games where visitor_name = 'Nebraska';
+
+4.4) SELECT visitor_name, home_score, visitor_score, game_date, players from football_games where home_score > visitor_score;
+
+4.5) SELECT visitor_name, game_date from football_games where game_date between '2020-09-08' and '2020-12-31';
+
+4.6) SELECT AVG(home_score) FROM football_games;
+
+4.7) SELECT  major, count(*) AS number_of_players FROM football_players GROUP BY major;
+
+4.8) SELECT major, count(*) AS number_of_players FROM football_players WHERE major = 'CSCI' GROUP BY major;
+
+5.1) create view games_won as SELECT count(*) AS winning_games FROM football_games WHERE home_score > visitor_score; 
+     select * from games_won;
+
+5.2) create view games_tot as SELECT count(*) AS games FROM football_games;
+     select * from games_tot;
+
+5.3) SELECT (cast(winning_games AS decimal) / cast(games AS decimal)) * 100 FROM games_won, games_tot;
+
+6.1) create view cedric_vega_games as SELECT count(*) AS count FROM football_players INNER JOIN football_games ON name = 'Cedric Vega' and id = any(players);
+     select * from cedric_vega_games;
+
+6.2) create view cedric_vega_avg as SELECT (cast(rushing_yards AS decimal) / cast(count AS decimal)) FROM cedric_vega_games, football_players WHERE name = 'Cedric Vega';
+     select * from cedric_vega_avg;
